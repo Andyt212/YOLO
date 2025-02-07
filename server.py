@@ -53,7 +53,7 @@ def process_full_mask(mask):
     return approx
 
 
-def detect_edges_and_corners(image_path, model_path="runs/segment/train5/weights/best.pt", device="cuda:0"):
+def detect_edges_and_corners(image_path, model_path="runs/segment/train5/weights/best.pt", device="cpu"):
     # Timing start
     start_time = time.time()
 
