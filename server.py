@@ -66,7 +66,8 @@ def detect_edges_and_corners(image_path, model_path="runs/segment/train5/weights
 
     # 2. Load the image
     print("Loading image...")
-    img = cv2.imread(image_path)
+    file_bytes = np.asarray(bytearray(image_path.read()), dtype=np.uint8)
+    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     if img is None:
         print("Error: Image not found at", image_path)
         return None
