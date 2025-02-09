@@ -53,7 +53,7 @@ def process_full_mask(mask):
     return approx
 
 
-def detect_edges_and_corners(image_path, model_path="runs/segment/train5/weights/best.pt", device="cpu"):
+def detect_edges_and_corners(image_path, model_path="runs/segment/train5/weights/best.pt", device="cuda:0"):
     # Timing start
     start_time = time.time()
 
@@ -66,8 +66,7 @@ def detect_edges_and_corners(image_path, model_path="runs/segment/train5/weights
 
     # 2. Load the image
     print("Loading image...")
-    file_bytes = np.asarray(bytearray(image_path.read()), dtype=np.uint8)
-    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    img = cv2.imread(image_path)
     if img is None:
         print("Error: Image not found at", image_path)
         return None
@@ -231,9 +230,6 @@ def upload_image():
     # Detect cards in the uploaded image
     detected_cards = detect_edges_and_corners(file.stream)
 
-    if not detected_cards:
-        return jsonify({'error': 'No cards detected'}), 400
-
     # Find the closest match for each detected card
     matches = []
     for i, card_image in enumerate(detected_cards):
@@ -241,7 +237,8 @@ def upload_image():
         matches.append({'card_index': i, 'closest_match_id': match_id})
 
     # Return the matches as a JSON object
-    return jsonify({'matches': matches}), 200
+    return jsonify({'cards': matches})
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)
