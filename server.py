@@ -231,6 +231,9 @@ def upload_image():
     # Detect cards in the uploaded image
     detected_cards = detect_edges_and_corners(file.stream)
 
+    if not detected_cards:
+        return jsonify({'error': 'No cards detected'}), 400
+
     # Find the closest match for each detected card
     matches = []
     for i, card_image in enumerate(detected_cards):
@@ -238,8 +241,7 @@ def upload_image():
         matches.append({'card_index': i, 'closest_match_id': match_id})
 
     # Return the matches as a JSON object
-    return jsonify({'cards': matches})
-
+    return jsonify({'matches': matches}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
