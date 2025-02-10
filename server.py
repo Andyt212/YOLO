@@ -219,7 +219,7 @@ def find_matching_card(detected_image, hash_db_path="hash_db.json"):
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Enable CORS for React to communicate with Flask
+CORS(app, origins="*")  # Enable CORS for React to communicate with Flask
 
 # Your image processing code (add the code you've already written here)
 
