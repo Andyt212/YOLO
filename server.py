@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import json
 import imagehash
+import os
 
 def process_full_mask(mask):
     """
@@ -238,6 +239,11 @@ def upload_image():
 
     # Return the matches as a JSON object
     return jsonify({'cards': matches})
+
+if __name__ == "__main__":
+    # Bind to 0.0.0.0 and use the environment variable for the port
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
+    app.run(host='0.0.0.0', port=port)
 
 
 if __name__ == '__main__':
